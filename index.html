@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>役職ガチャ 管理画面</title>
+    <meta name="description" content="配信向け役職ガチャの管理画面">
+    <link rel="stylesheet" href="styles.css?v=6">
+  </head>
+  <body class="admin-page">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Class Gacha</p>
+        <h1>役職ガチャ 管理画面</h1>
+        <p class="lead">役職要素、履歴、一時除外リスト、JSONプリセットを管理します。</p>
+      </div>
+      <nav class="header-actions" aria-label="画面切り替え">
+        <a class="button secondary" href="stream.html">配信ビューを開く</a>
+      </nav>
+    </header>
+
+    <main class="admin-layout">
+      <section class="panel status-panel" aria-labelledby="status-title">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Status</p>
+            <h2 id="status-title">現在の抽選状態</h2>
+          </div>
+          <button id="samplePresetButton" class="button ghost" type="button">サンプルを読み込む</button>
+        </div>
+        <div id="validationMessage" class="message" role="status"></div>
+        <div class="stats-grid">
+          <div class="stat">
+            <span class="stat-label">要素グループ</span>
+            <strong id="groupCount">0</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">最小抽選可能数</span>
+            <strong id="minimumAvailable">0</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">履歴</span>
+            <strong id="historyCount">0</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">一時除外</span>
+            <strong id="excludedCount">0</strong>
+          </div>
+        </div>
+        <div class="rarity-grid" id="rarityStats"></div>
+      </section>
+
+      <section class="panel settings-panel" aria-labelledby="settings-title">
+        <p class="eyebrow">Settings</p>
+        <h2 id="settings-title">抽選設定</h2>
+        <label class="toggle-row">
+          <input id="excludeAfterDraw" type="checkbox">
+          <span>
+            <strong>出た要素を次回以降の抽選から一時除外する</strong>
+            <small>元データは削除されません。各グループの抽選可能数が同一でない場合、ONにするときに警告します。</small>
+          </span>
+        </label>
+        <p class="subtle">抽選重みは固定値です: C 35 / UC 30 / R 20 / SR 10 / SSR 5。最終レアリティは C 0.25 / UC 0.5 / R 1 / SR 2 / SSR 5 を選ばれた全要素で乗算して算出します。</p>
+      </section>
+
+      <section class="panel editor-panel parts-panel" aria-labelledby="parts-title">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Parts</p>
+            <h2 id="parts-title">役職要素</h2>
+          </div>
+          <form id="groupForm" class="group-form">
+            <input id="groupName" type="text" autocomplete="off" placeholder="例: 所属" aria-label="追加する要素グループ名">
+            <button class="button secondary" type="submit">グループ追加</button>
+          </form>
+        </div>
+        <div id="partsContainer" class="parts-container"></div>
+      </section>
+
+      <section class="panel io-panel" aria-labelledby="io-title">
+        <p class="eyebrow">Preset</p>
+        <h2 id="io-title">JSON保存 / 読み込み</h2>
+        <p class="subtle">データはこのブラウザのlocalStorageに保存されます。別端末へ移す場合や復旧用の控えには、JSONエクスポートを使ってください。</p>
+        <div class="button-row">
+          <button id="exportButton" class="button primary" type="button">JSONをエクスポート</button>
+          <label class="button secondary file-button">
+            JSONをインポート
+            <input id="importInput" type="file" accept="application/json,.json">
+          </label>
+        </div>
+        <textarea id="jsonOutput" readonly aria-label="エクスポートJSON"></textarea>
+      </section>
+
+      <section class="panel danger-panel" aria-labelledby="reset-title">
+        <p class="eyebrow">Reset</p>
+        <h2 id="reset-title">リセット</h2>
+        <div class="button-row">
+          <button id="resetExcludedButton" class="button secondary" type="button">セッション除外をリセット</button>
+          <button id="clearHistoryButton" class="button warning" type="button">履歴を削除</button>
+          <button id="clearRolesButton" class="button danger" type="button">役職要素を削除</button>
+        </div>
+      </section>
+
+      <section class="panel history-panel" aria-labelledby="history-title">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">History</p>
+            <h2 id="history-title">抽選履歴</h2>
+          </div>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </main>
+
+    <template id="groupTemplate">
+      <section class="part-group">
+        <div class="part-group-header">
+          <input class="group-label" type="text" aria-label="要素グループ名">
+          <span class="group-count"></span>
+          <div class="group-order-actions" aria-label="グループ順序変更">
+            <button class="button icon-button move-group-up-button" type="button" title="上へ移動" aria-label="上へ移動">↑</button>
+            <button class="button icon-button move-group-down-button" type="button" title="下へ移動" aria-label="下へ移動">↓</button>
+          </div>
+          <button class="button icon-button delete-group-button" type="button" title="グループ削除" aria-label="グループ削除">×</button>
+        </div>
+        <form class="entry-form">
+          <input class="new-entry-text" type="text" autocomplete="off" placeholder="例: 勇敢な" aria-label="要素名">
+          <select class="new-entry-rarity" aria-label="要素のレアリティ"></select>
+          <button class="button primary" type="submit">追加</button>
+        </form>
+        <div class="entry-list"></div>
+      </section>
+    </template>
+
+    <template id="entryTemplate">
+      <article class="entry-item">
+        <label class="icon-check">
+          <input class="entry-enabled" type="checkbox">
+          <span>有効</span>
+        </label>
+        <input class="entry-text" type="text" aria-label="テキスト">
+        <select class="entry-rarity" aria-label="レアリティ"></select>
+        <span class="excluded-pill">除外中</span>
+        <button class="button icon-button restore-button" type="button" title="除外から戻す" aria-label="除外から戻す">↩</button>
+        <button class="button icon-button delete-button" type="button" title="削除" aria-label="削除">×</button>
+      </article>
+    </template>
+
+    <script src="app.js?v=6"></script>
+  </body>
+</html>

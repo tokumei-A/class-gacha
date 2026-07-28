@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>役職ガチャ 配信ビュー</title>
+    <meta name="description" content="OBS配信向けの役職ガチャ画面">
+    <link rel="stylesheet" href="styles.css?v=6">
+  </head>
+  <body class="stream-page">
+    <main class="stream-stage">
+      <div class="stream-topbar">
+        <div>
+          <p class="eyebrow">Class Gacha</p>
+          <h1>役職ガチャ</h1>
+        </div>
+        <a class="button secondary compact-link" href="index.html">管理</a>
+      </div>
+
+      <section class="draw-area" aria-live="polite">
+        <p id="streamRarity" class="stream-rarity">READY</p>
+        <div id="rouletteText" class="roulette-text">今日の役職は?</div>
+        <div id="resultText" class="result-text">ガチャるを押してください</div>
+        <p id="streamMessage" class="stream-message"></p>
+      </section>
+
+      <button id="drawButton" class="draw-button" type="button">ガチャる</button>
+
+      <section class="stream-footer" aria-label="抽選状態">
+        <span id="streamAvailable">抽選対象: 0 / 0</span>
+        <span id="streamExcludeMode">一時除外: OFF</span>
+      </section>
+    </main>
+
+    <script src="app.js?v=6"></script>
+  </body>
+</html>
