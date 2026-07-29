@@ -15,7 +15,17 @@
   const RARITIES = ["C", "UC", "R", "SR", "SSR"];
   const WEIGHTS = { C: 35, UC: 30, R: 20, SR: 10, SSR: 5 };
   const RARITY_SCORES = { C: 0.25, UC: 0.5, R: 1, SR: 2, SSR: 5 };
-  const DEFAULT_SETTINGS = { excludeAfterDraw: false, activePresetName: "サンプルプリセット" };
+  const STREAM_THEMES = [
+    { id: "purple", label: "紫" },
+    { id: "blue", label: "青" },
+    { id: "red", label: "赤" },
+    { id: "green", label: "緑" },
+    { id: "gold", label: "金" },
+    { id: "pink", label: "ピンク" },
+    { id: "cyan", label: "シアン" },
+    { id: "mono", label: "モノクロ" }
+  ];
+  const DEFAULT_SETTINGS = { excludeAfterDraw: false, activePresetName: "サンプルプリセット", streamTheme: "purple" };
 
   const SAMPLE_PRESET = {
     version: VERSION,
@@ -394,6 +404,26 @@
     });
   }
 
+  function fillThemeSelect(select, value = "purple") {
+    select.innerHTML = "";
+    STREAM_THEMES.forEach((theme) => {
+      const option = document.createElement("option");
+      option.value = theme.id;
+      option.textContent = theme.label;
+      option.selected = theme.id === value;
+      select.appendChild(option);
+    });
+  }
+
+  function normalizeTheme(theme) {
+    return STREAM_THEMES.some((item) => item.id === theme) ? theme : "purple";
+  }
+
+  function applyStreamTheme(theme) {
+    document.body.classList.remove(...STREAM_THEMES.map((item) => `theme-${item.id}`));
+    document.body.classList.add(`theme-${normalizeTheme(theme)}`);
+  }
+
   function setMessage(element, text, ok = false) {
     if (!element) return;
     element.textContent = text;
@@ -430,6 +460,7 @@
       groupName: document.getElementById("groupName"),
       partsContainer: document.getElementById("partsContainer"),
       excludeAfterDraw: document.getElementById("excludeAfterDraw"),
+      streamTheme: document.getElementById("streamTheme"),
       historyList: document.getElementById("historyList"),
       rarityStats: document.getElementById("rarityStats"),
       groupCount: document.getElementById("groupCount"),
@@ -444,6 +475,7 @@
       clearRolesButton: document.getElementById("clearRolesButton"),
       samplePresetButton: document.getElementById("samplePresetButton")
     };
+    fillThemeSelect(els.streamTheme, "purple");
 
     els.groupForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -477,6 +509,13 @@
         }
       }
       state.settings.excludeAfterDraw = els.excludeAfterDraw.checked;
+      saveState(state);
+      renderAdmin();
+    });
+
+    els.streamTheme.addEventListener("change", () => {
+      const state = getState();
+      state.settings.streamTheme = normalizeTheme(els.streamTheme.value);
       saveState(state);
       renderAdmin();
     });
@@ -586,6 +625,7 @@
       const availableCounts = getAvailableCounts(state);
       const excludedTotal = Object.values(state.excluded.groups || {}).reduce((sum, list) => sum + list.length, 0);
       els.excludeAfterDraw.checked = state.settings.excludeAfterDraw;
+      els.streamTheme.value = normalizeTheme(state.settings.streamTheme);
       els.groupCount.textContent = state.parts.length;
       els.minimumAvailable.textContent = availableCounts.length ? Math.min(...availableCounts) : 0;
       els.historyCount.textContent = state.history.length;
@@ -815,6 +855,7 @@
 
     function renderStream(message = "") {
       const state = getState();
+      applyStreamTheme(state.settings.streamTheme);
       const errors = validateState(state);
       const latest = state.history[0];
       if (latest) {

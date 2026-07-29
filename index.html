@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>役職ガチャ 管理画面</title>
     <meta name="description" content="配信向け役職ガチャの管理画面">
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.css?v=7">
   </head>
   <body class="admin-page">
     <header class="app-header">
@@ -60,6 +60,10 @@
             <small>元データは削除されません。各グループの抽選可能数が同一でない場合、ONにするときに警告します。</small>
           </span>
         </label>
+        <div class="setting-field">
+          <label for="streamTheme">配信テーマ</label>
+          <select id="streamTheme"></select>
+        </div>
         <p class="subtle">抽選重みは固定値です: C 35 / UC 30 / R 20 / SR 10 / SSR 5。最終レアリティは C 0.25 / UC 0.5 / R 1 / SR 2 / SSR 5 を選ばれた全要素で乗算して算出します。</p>
       </section>
 
@@ -146,6 +150,6 @@
       </article>
     </template>
 
-    <script src="app.js?v=6"></script>
+    <script src="app.js?v=7"></script>
   </body>
 </html>

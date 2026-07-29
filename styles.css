@@ -264,6 +264,28 @@ a {
   display: block;
 }
 
+.setting-field {
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.setting-field label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.setting-field select {
+  width: min(280px, 100%);
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid #cbd3de;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+}
+
 .entry-form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 110px auto;
@@ -436,14 +458,131 @@ textarea {
 }
 
 .stream-page {
+  --stream-bg-1: #160b2e;
+  --stream-bg-2: #32145f;
+  --stream-bg-3: #12071f;
+  --stream-glow-1: rgba(202, 138, 255, 0.32);
+  --stream-glow-2: rgba(124, 58, 237, 0.34);
+  --stream-eyebrow: #d8b4fe;
+  --stream-rarity: #f0abfc;
+  --stream-roulette: #c4b5fd;
+  --stream-message: #f5d0fe;
+  --stream-button-1: #c084fc;
+  --stream-button-2: #7c3aed;
+  --stream-button-shadow: #4c1d95;
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   color: #f7fafc;
   background:
-    radial-gradient(circle at 14% 12%, rgba(202, 138, 255, 0.32), transparent 30%),
-    radial-gradient(circle at 84% 22%, rgba(124, 58, 237, 0.34), transparent 28%),
-    linear-gradient(135deg, #160b2e 0%, #32145f 48%, #12071f 100%);
+    radial-gradient(circle at 14% 12%, var(--stream-glow-1), transparent 30%),
+    radial-gradient(circle at 84% 22%, var(--stream-glow-2), transparent 28%),
+    linear-gradient(135deg, var(--stream-bg-1) 0%, var(--stream-bg-2) 48%, var(--stream-bg-3) 100%);
+}
+
+.stream-page.theme-blue {
+  --stream-bg-1: #06152d;
+  --stream-bg-2: #164f8f;
+  --stream-bg-3: #031024;
+  --stream-glow-1: rgba(96, 165, 250, 0.28);
+  --stream-glow-2: rgba(14, 165, 233, 0.30);
+  --stream-eyebrow: #bfdbfe;
+  --stream-rarity: #93c5fd;
+  --stream-roulette: #bae6fd;
+  --stream-message: #dbeafe;
+  --stream-button-1: #60a5fa;
+  --stream-button-2: #2563eb;
+  --stream-button-shadow: #1e3a8a;
+}
+
+.stream-page.theme-red {
+  --stream-bg-1: #2a070b;
+  --stream-bg-2: #7f1d1d;
+  --stream-bg-3: #160306;
+  --stream-glow-1: rgba(248, 113, 113, 0.30);
+  --stream-glow-2: rgba(220, 38, 38, 0.30);
+  --stream-eyebrow: #fecaca;
+  --stream-rarity: #fca5a5;
+  --stream-roulette: #fecdd3;
+  --stream-message: #fee2e2;
+  --stream-button-1: #f87171;
+  --stream-button-2: #dc2626;
+  --stream-button-shadow: #7f1d1d;
+}
+
+.stream-page.theme-green {
+  --stream-bg-1: #041f16;
+  --stream-bg-2: #166534;
+  --stream-bg-3: #03140d;
+  --stream-glow-1: rgba(74, 222, 128, 0.28);
+  --stream-glow-2: rgba(16, 185, 129, 0.28);
+  --stream-eyebrow: #bbf7d0;
+  --stream-rarity: #86efac;
+  --stream-roulette: #a7f3d0;
+  --stream-message: #dcfce7;
+  --stream-button-1: #4ade80;
+  --stream-button-2: #16a34a;
+  --stream-button-shadow: #14532d;
+}
+
+.stream-page.theme-gold {
+  --stream-bg-1: #241605;
+  --stream-bg-2: #854d0e;
+  --stream-bg-3: #140b02;
+  --stream-glow-1: rgba(251, 191, 36, 0.30);
+  --stream-glow-2: rgba(245, 158, 11, 0.30);
+  --stream-eyebrow: #fde68a;
+  --stream-rarity: #facc15;
+  --stream-roulette: #fde68a;
+  --stream-message: #fef3c7;
+  --stream-button-1: #fbbf24;
+  --stream-button-2: #d97706;
+  --stream-button-shadow: #78350f;
+}
+
+.stream-page.theme-pink {
+  --stream-bg-1: #2b071b;
+  --stream-bg-2: #9d174d;
+  --stream-bg-3: #170411;
+  --stream-glow-1: rgba(244, 114, 182, 0.30);
+  --stream-glow-2: rgba(219, 39, 119, 0.30);
+  --stream-eyebrow: #fbcfe8;
+  --stream-rarity: #f9a8d4;
+  --stream-roulette: #fbcfe8;
+  --stream-message: #fce7f3;
+  --stream-button-1: #f472b6;
+  --stream-button-2: #db2777;
+  --stream-button-shadow: #831843;
+}
+
+.stream-page.theme-cyan {
+  --stream-bg-1: #042029;
+  --stream-bg-2: #0e7490;
+  --stream-bg-3: #031318;
+  --stream-glow-1: rgba(34, 211, 238, 0.28);
+  --stream-glow-2: rgba(6, 182, 212, 0.30);
+  --stream-eyebrow: #a5f3fc;
+  --stream-rarity: #67e8f9;
+  --stream-roulette: #cffafe;
+  --stream-message: #ecfeff;
+  --stream-button-1: #22d3ee;
+  --stream-button-2: #0891b2;
+  --stream-button-shadow: #164e63;
+}
+
+.stream-page.theme-mono {
+  --stream-bg-1: #111111;
+  --stream-bg-2: #3f3f46;
+  --stream-bg-3: #050505;
+  --stream-glow-1: rgba(212, 212, 216, 0.18);
+  --stream-glow-2: rgba(161, 161, 170, 0.18);
+  --stream-eyebrow: #e4e4e7;
+  --stream-rarity: #ffffff;
+  --stream-roulette: #d4d4d8;
+  --stream-message: #f4f4f5;
+  --stream-button-1: #a1a1aa;
+  --stream-button-2: #52525b;
+  --stream-button-shadow: #27272a;
 }
 
 .stream-stage {
@@ -467,13 +606,13 @@ textarea {
 }
 
 .stream-page .eyebrow {
-  color: #d8b4fe;
+  color: var(--stream-eyebrow);
 }
 
 .compact-link {
   min-width: 86px;
-  background: rgba(216, 180, 254, 0.16);
-  border-color: rgba(216, 180, 254, 0.28);
+  background: color-mix(in srgb, var(--stream-rarity) 16%, transparent);
+  border-color: color-mix(in srgb, var(--stream-rarity) 28%, transparent);
   color: #fff;
 }
 
@@ -486,7 +625,7 @@ textarea {
 
 .stream-rarity {
   margin: 0;
-  color: #f0abfc;
+  color: var(--stream-rarity);
   font-size: clamp(30px, 7vw, 98px);
   font-weight: 900;
   line-height: 1;
@@ -494,7 +633,7 @@ textarea {
 
 .roulette-text {
   min-height: 1.2em;
-  color: #c4b5fd;
+  color: var(--stream-roulette);
   font-size: clamp(28px, 5.8vw, 82px);
   font-weight: 900;
   line-height: 1.15;
@@ -513,7 +652,7 @@ textarea {
 .stream-message {
   min-height: 30px;
   margin: 0;
-  color: #f5d0fe;
+  color: var(--stream-message);
   font-size: clamp(18px, 2.4vw, 34px);
   font-weight: 800;
 }
@@ -529,8 +668,8 @@ textarea {
   border: 0;
   border-radius: 8px;
   color: #ffffff;
-  background: linear-gradient(180deg, #c084fc 0%, #7c3aed 100%);
-  box-shadow: 0 18px 0 #4c1d95, 0 24px 44px rgba(0, 0, 0, 0.36);
+  background: linear-gradient(180deg, var(--stream-button-1) 0%, var(--stream-button-2) 100%);
+  box-shadow: 0 18px 0 var(--stream-button-shadow), 0 24px 44px rgba(0, 0, 0, 0.36);
   cursor: pointer;
   font-size: clamp(34px, 6vw, 84px);
   font-weight: 900;
@@ -539,7 +678,7 @@ textarea {
 
 .draw-button:active {
   transform: translateY(8px);
-  box-shadow: 0 10px 0 #4c1d95, 0 14px 30px rgba(0, 0, 0, 0.36);
+  box-shadow: 0 10px 0 var(--stream-button-shadow), 0 14px 30px rgba(0, 0, 0, 0.36);
 }
 
 .stream-footer {
