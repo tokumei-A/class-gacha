@@ -864,8 +864,8 @@
         els.roulette.textContent = "前回の結果";
       } else {
         els.rarity.textContent = "READY";
-        els.result.textContent = "ガチャるを押してください";
-        els.roulette.textContent = "今日の役職は?";
+        els.result.textContent = "ボタンを押してください";
+        els.roulette.textContent = "役職ガチャ";
       }
       els.message.textContent = message || errors[0] || (latest ? formatRarityMeta(latest) : "");
       updateStreamFooter();
